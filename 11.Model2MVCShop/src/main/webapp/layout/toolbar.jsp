@@ -140,6 +140,11 @@
 			self.location="/product/listProduct?menu=search";
 		}); 
 		
+		
+		$("a:contains('구매이력조회')" ).on("click", function() {
+			self.location="/purchase/listPurchase";
+		}); 
+		
 		/*
 		$("a:contains('최근본상품')" ).on("click", function() {
 			self.location="";

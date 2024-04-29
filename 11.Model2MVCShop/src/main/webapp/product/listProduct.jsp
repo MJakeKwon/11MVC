@@ -10,14 +10,16 @@
 
 <link rel="stylesheet" href="/css/admin.css" type="text/css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" >
-	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
-	<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
-	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" >
+<script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
+	
 	<style>
 	  body {
             padding-top :40px;
         }
     </style>
+    
 <script type="text/javascript">
 	function fncGetList(currentPage){
 			
@@ -50,6 +52,16 @@
 					   			self.location ="/product/getProduct?prodNo="+$(this).parent().children('input').val()+"&menu="+menu;
 					   		}
 				});
+			   $(document).ready(function() {
+				    $('.updateTranCode').on('click', function() {
+				        var tranNo = $(this).data('tranno');
+				        var tranCode = $(this).data('trancode');
+
+				        // 페이지 리디렉션 실행
+				        window.location.href = "/purchase/updateTranCode?tranNo=" + tranNo + "&tranCode=" + tranCode;
+				    });
+				});
+			
 			});
 	
 	   
@@ -130,7 +142,7 @@
 				</tr>
 			</table>
 
-			<<table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top: 10px;">
+			<table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top: 10px;">
 			    <tr>
 			        <td align="right">
 			            <c:if test="${not empty search.searchCondition}">
@@ -153,7 +165,7 @@
 			                <tr>
 			                    <td width="17" height="23"><img src="/images/ct_btnbg01.gif" width="17" height="23"></td>
 			                    <td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top: 3px;">
-<!-- 			                        <a href="javascript:fncGetList('1');"> -->		<a>검색</a>
+										<a>검색</a>
 	                    </td>
 			                    <td width="14" height="23"><img src="/images/ct_btnbg03.gif" width="14" height="23"></td>
 			                </tr>
@@ -213,9 +225,38 @@
 					<td></td>
 					<td align="left">${product.regDate}</td>
 					<td></td>
-					<td align="left">
-							판매중
-					</td>
+					
+					<c:if test="${user.role == 'admin'}">
+				    <c:choose>
+				        <c:when test="${product.proTranCode == '0'}">
+				            <td align="left">판매중</td>
+				        </c:when>
+				        <c:when test="${product.proTranCode == '1'}">
+				            <td align="left">결제완료
+				                <%-- <a href="/purchase/updateTranCode?tranNo=${product.tranNo}&tranCode=2"> --%>
+				                <button type="button" class="updateTranCode" data-tranno="${product.tranNo}" data-trancode="2" > 배송하기 </button>
+				            </td>
+				        </c:when>
+				        <c:when test="${product.proTranCode == '2'}">
+				            <td align="left">배송중</td>
+				        </c:when>
+				        <c:when test="${product.proTranCode == '3'}">
+				            <td align="left">배송완료</td>
+				        </c:when>
+				    </c:choose>
+				</c:if>
+				
+				<c:if test="${user.role != 'admin'}">
+				    <c:choose>
+				        <c:when test="${product.proTranCode == '0'}">
+				            <td align="left">판매중</td>
+				        </c:when>
+				        <c:otherwise>
+				            <td align="left">재고없음</td>
+				        </c:otherwise>
+				    </c:choose>
+				</c:if>
+					
 					</tr>
 					<tr>
 					<td id="${product.prodNo}" colspan="11" bgcolor="D6D7D6" height="1"></td>
@@ -225,23 +266,20 @@
 		</table>
 
 			
-			<table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:10px;">
-	<tr>
-		<td align="center">
-		<input type="hidden" id="currentPage" name="currentPage" value=""/>
-			 <tr>
-               <td align="center">
-               
-				<jsp:include page="../common/pageNavigator.jsp"/>	
-               </td> 
-            </tr>
-			<!--  페이지 Navigator 끝 -->
-			
+		<table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:10px;">
+		<tr>
+			<td align="center">
+			<input type="hidden" id="currentPage" name="currentPage" value=""/>
+				 <tr>
+	               <td align="center">
+	               
+					<jsp:include page="../common/pageNavigator.jsp"/>	
+	               </td> 
+	            </tr>
+				<!--  페이지 Navigator 끝 -->
+		</table>
             
             
-        </div>
-    </div>
-</div>
 			
 		</form>
 

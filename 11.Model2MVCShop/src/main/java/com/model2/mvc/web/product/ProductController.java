@@ -33,7 +33,7 @@ public class ProductController{
 		System.out.println(this.getClass());
 	}
 	
-	//==> classpath:config/common.properties  ,  classpath:config/commonservice.xml 참조
+	//==> classpath:config/common.properties  ,  classpath:config/commonservice.xml 참조 할것
 		//==> 아래의 두개를 주석을 풀어 의미를 확인 할것
 		@Value("#{commonProperties['pageUnit']}")
 		//@Value("#{commonProperties['pageUnit'] ?: 3}")
@@ -64,7 +64,7 @@ public class ProductController{
 	public ModelAndView getProduct( @RequestParam("prodNo") int prodNo , Model model, 
 														@RequestParam("menu")String menu) throws Exception {
 		
-		System.out.println("/getProduct");
+		System.out.println("/getProduct.do");
 		//Business Logic
 		ModelAndView modelAndView = new ModelAndView();
 		Product product = productService.getProduct(prodNo);

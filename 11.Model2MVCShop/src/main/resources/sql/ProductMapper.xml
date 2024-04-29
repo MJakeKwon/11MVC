@@ -16,6 +16,7 @@
 		<result property="regDate" 		 column="reg_date" 				jdbcType="DATE" />
 		<result property="proTranCode" column="tran_code" 			jdbcType="VARCHAR"  />
 		<result property="count" 		 	 column="count" 					jdbcType="INTEGER" />
+		<result property="tranNo" 		 	 column="tran_no" 					jdbcType="INTEGER" />
 	</resultMap>
 
 	<insert 	id="addProduct"		parameterType="user" >
@@ -45,28 +46,50 @@
 	 </select>
 	 
 	 
-	 <select id="getProductList" parameterType="search" resultMap="productSelectMap" >
+	<select id="getProductList" parameterType="search" resultMap="productSelectMap" >
 	 		SELECT *
 	  		FROM (	SELECT inner_table.* , ROWNUM AS row_seq
-	  					FROM		(	SELECT prod_no , prod_name , prod_detail, manufacture_day, price, image_file, reg_date
-											FROM product
+	  					FROM		(	SELECT p.*, t.TRAN_STATUS_CODE tran_code, t.tran_no
+									        FROM product p
+									        LEFT JOIN transaction t ON p.prod_no = t.prod_no
 			<if test="searchCondition != null">
 				<where>
 					<if test="searchCondition == 0 and searchKeyword !='' ">
-		 				prod_no = #{searchKeyword}
+		 				p.prod_no = #{searchKeyword}
 					</if>
 					<if test="searchCondition == 1 and searchKeyword !='' ">
-		 				prod_name = #{searchKeyword}
+		 				p.prod_name = #{searchKeyword}
 					</if>
 					<if test="searchCondition == 2 and searchKeyword !='' ">
-		 				price = #{searchKeyword}
+		 				p.price = #{searchKeyword}
 					</if>
 				</where>
 			</if>
-					ORDER BY prod_no ) inner_table
+					ORDER BY p.prod_no ) inner_table
 					WHERE ROWNUM &lt;= #{endRowNum} )
 					WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} 
 	 </select>
+	 <!-- <select id="getProductList" parameterType="search" resultMap="productSelectMap" >
+		        SELECT p.*, t.TRAN_STATUS_CODE tran_code, t.tran_no
+		        FROM product p
+		        LEFT JOIN transaction t ON p.prod_no = t.prod_no
+	        <where>
+	            <if test="searchCondition != null and searchKeyword != ''">
+	                <choose>
+	                    <when test="searchCondition == '0'">
+	                        AND p.prod_no = #{searchKeyword}
+	                    </when>
+	                    <when test="searchCondition == '1'">
+	                        AND p.prod_name LIKE '%' || #{searchKeyword} || '%'
+	                    </when>
+	                    <when test="searchCondition == '2'">
+	                        AND p.price = #{searchKeyword}
+	                    </when>
+	                </choose>
+	            </if>
+	        </where>
+	        ORDER BY p.prod_no
+	    </select> -->
 	 
  	<select  id="getTotalCount"  parameterType="search"	 resultType="int">
 	  	SELECT COUNT(*)
@@ -81,7 +104,7 @@
 				 		prod_name = #{searchKeyword}
 						</if>
 						<if test="searchCondition == 2 and searchKeyword !='' ">
-						price = #{searchKeyword}
+								 				price = #{searchKeyword}
 						</if>
 					</where>
 				</if> ) countTable						
