@@ -68,7 +68,7 @@
 	if(name == null || name.length<1){
 		alert("상품명은 반드시 입력하여야 합니다.");
 		return;
-	}
+	}asd
 	if(detail == null || detail.length<1){
 		alert("상품상세정보는 반드시 입력하여야 합니다.");
 		return;
