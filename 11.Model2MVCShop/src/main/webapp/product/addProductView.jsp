@@ -20,9 +20,16 @@
    
 	<!--  ///////////////////////// CSS ////////////////////////// -->
 	<style>
+	
 		body {
             padding-top : 50px;
         }
+	    .input-group-addon {
+	        cursor: pointer; /* 달력 아이콘에 마우스 오버 시 커서 변경 */
+	        border: none; /* 테두리 제거 */
+	        background: transparent; /* 배경색 투명 */
+	    }
+        
     </style>
 <link rel="stylesheet" href="/css/admin.css" type="text/css">
 
@@ -60,12 +67,12 @@
 	
 	$(function(){
 		
-		$("button.btn.btn-primary").on("click", function(){
+		$("#registerButton").on("click", function(){
 			console.log("등록 됨")
 			fncAddProduct();
 		});
 		
-        $(".btn.btn-primary[href='#']").on("click", function() {
+        $("#cancelButton").on("click", function() {
 			history.go(-1);
 		});
 		
@@ -108,9 +115,12 @@
 	  	<div class="form-group">
 	    	<label for="manuDate" class="col-sm-offset-1 col-sm-3 control-label">제조일자</label>
 		    <div class="col-sm-4">
-		        <input type="text" class="form-control" id="manuDate" name="manuDate"
-		               value="${manuDate}"  readonly="readonly">
-               <img id ="calendar" src="../images/ct_icon_date.gif" width="15" height="15" />
+	    	        <div class="input-group">
+		        		<input type="text" class="form-control" id="manuDate" name="manuDate"	value="${manuDate}"  readonly="readonly">
+	        		  	<span class="input-group-addon">
+               				<img id ="calendar" src="../images/ct_icon_date.gif" width="15" height="15" />
+               			</span>
+   	      		 </div>
 		    </div>
 		</div>
 		
@@ -128,11 +138,12 @@
 		        <input type="text" class="form-control" id="fileName" name="fileName"
 		               value="${fileName}" >
 		    </div>
+		   </div>
 		    
-		    <div class="form-group">
+	    <div class="form-group">
 		    <div class="col-sm-offset-4  col-sm-4 text-center">
-		      <button type="button" class="btn btn-primary"  >등&nbsp;록</button>
-		       <a class="btn btn-primary btn" href="#" role="button">취&nbsp;소</a>
+		      <button type="button" class="btn btn-primary" id="registerButton">등&nbsp;록</button>
+			  <button type="button" class="btn btn-primary" id="cancelButton">취&nbsp;소</button>
 		    </div>
 		</div>
 		

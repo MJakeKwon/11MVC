@@ -19,11 +19,25 @@
    
 	<!--  ///////////////////////// CSS ////////////////////////// -->
 	<style>
+	
 		body {
             padding-top : 50px;
         }
+        
     </style>
+    <script type="text/javascript">
     
+	    $(function() {
+				$( "#accept" ).on("click" , function() {
+				self.location ="/product/listProduct?menu=manage";
+				});
+				$( "#registerButton" ).on("click" , function() {
+					self.location ="../product/addProductView.jsp";
+					});
+				
+			});	
+    
+    </script>
 <link rel="stylesheet" href="/css/admin.css" type="text/css">
 
 </head>
@@ -58,12 +72,12 @@
 	  	<div class="form-group">
 	    	<label for="manuDate" class="col-sm-offset-1 col-sm-3 control-label">제조일자</label>
 		    <div class="col-sm-4">
-		        <input type="text" class="form-control" id="manuDate" name="manuDate"
-		               value="${product.manuDate}"  readonly="readonly">
-               <img id ="calendar" src="../images/ct_icon_date.gif" width="15" height="15" />
+	    	        <div class="input-group">
+		        		<input type="text" class="form-control" id="manuDate" name="manuDate"	value="${product.manuDate}"  readonly="readonly">
+   	      		 </div>
 		    </div>
 		</div>
-
+		
 	  	<div class="form-group">
 	    	<label for="price" class="col-sm-offset-1 col-sm-3 control-label">가격</label>
 		    <div class="col-sm-4">
@@ -78,37 +92,15 @@
 		        <input type="text" class="form-control" id="fileName" name="fileName"
 		               value="${product.fileName}" readonly="readonly">
 		    </div>
+		  </div>
 
-<table width="100%" border="0" cellspacing="0" cellpadding="0" style="margin-top:10px;">
-	<tr>
-		<td width="53%"></td>
-		<td align="right">
-			<table border="0" cellspacing="0" cellpadding="0">
-				<tr>					
-					<td width="17" height="23">
-					
-						<img src="/images/ct_btnbg01.gif" width="17" height="23"/>
-					</td>
-					<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top:3px;">
-						<a href="/product/listProduct?menu=manage">확인</a>
-					</td>
-					<td width="14" height="23">
-						<img src="/images/ct_btnbg03.gif" width="14" height="23"/>
-					</td>
-					<td width="17" height="23">
-						<img src="/images/ct_btnbg01.gif" width="17" height="23"/>
-					</td>
-					<td background="/images/ct_btnbg02.gif" class="ct_btn01" style="padding-top:3px;">
-						<a href="../product/addProductView.jsp;">추가등록</a>
-					</td>
-					<td width="14" height="23">
-						<img src="/images/ct_btnbg03.gif" width="14" height="23"/>
-					</td>
-				</tr>
-			</table>
-		</td>
-	</tr>
-</table>
 
+		<div class="form-group">
+		    <div class="col-sm-offset-4  col-sm-4 text-center">
+		      <button type="button" class="btn btn-primary" id="accept">확&nbsp;인</button>
+			  <button type="button" class="btn btn-primary" id="registerButton">추가등록</button>
+		    </div>
+		</div>
+		
 </body>
 </html>

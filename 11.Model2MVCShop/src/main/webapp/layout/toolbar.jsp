@@ -56,8 +56,8 @@
 		                         <span class="caret"></span>
 		                     </a>
 		                     <ul class="dropdown-menu">
-		                         <li><a href="#t">판매상품등록</a></li>
-		                         <li><a href="#">판매상품관리</a></li>
+		                         <li><a href="#">판매상품등록</a></li>
+		                         <li><a href="#" class='sale'>판매상품관리</a></li>
 		                         <li class="divider"></li>
 		                         <li><a href="#">etc..</a></li>
 		                     </ul>
@@ -132,7 +132,7 @@
 		});
 		
 		
-		$("a:contains('판매상품관리')" ).on("click", function() {
+		$("a.sale" ).on("click", function() {
 			self.location="/product/listProduct?menu=manage";
 		});
 		
