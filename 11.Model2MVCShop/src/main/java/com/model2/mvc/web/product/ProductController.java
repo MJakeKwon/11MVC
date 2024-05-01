@@ -1,5 +1,7 @@
 package com.model2.mvc.web.product;
 
+import java.io.File;
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
@@ -14,6 +16,8 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.multipart.MultipartFile;
+import org.springframework.web.multipart.MultipartHttpServletRequest;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.model2.mvc.common.Page;
@@ -42,6 +46,9 @@ public class ProductController{
 		@Value("#{commonProperties['pageSize']}")
 		//@Value("#{commonProperties['pageSize'] ?: 2}")
 		int pageSize;
+		
+		@Value("#{commonProperties['path']}")
+		String path;
 
 	@RequestMapping(value="addProduct", method=RequestMethod.GET)
 	public String addProduct() throws Exception {
@@ -51,13 +58,23 @@ public class ProductController{
 		return "forward:/product/addProductView.jsp";
 	}	
 	@RequestMapping(value="addProduct", method=RequestMethod.POST)
-	public String addProduct( @ModelAttribute("product") Product product ) throws Exception {
-
+	public ModelAndView addProduct(@ModelAttribute("product") Product product, MultipartHttpServletRequest request) throws Exception {
 		System.out.println("/product/addProduct. POST");
-		//Business Logic
+		
+//		String uploadFolder ="C:\\Users\\Gram17\\git\\11MVC\\11.Model2MVCShop\\src\\main\\webapp\\images\\uploadFiles\\";
+		List<MultipartFile> fileList = request.getFiles("uploadFile");
+		String fileName = "";
+		
+		for(MultipartFile mf : fileList) {
+			fileName += mf.getOriginalFilename()+"/";
+			String saveFile = path+mf.getOriginalFilename();
+			mf.transferTo(new File(saveFile));
+		}
+		
+		product.setFileName(fileName);
 		productService.addProduct(product);
 		
-		return "forward:/product/addProduct.jsp";
+		return new ModelAndView("forward:/product/addProduct.jsp","product",product);
 	}
 	
 	@RequestMapping( value="getProduct", method=RequestMethod.GET )

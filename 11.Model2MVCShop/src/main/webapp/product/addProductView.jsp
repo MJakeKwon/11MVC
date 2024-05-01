@@ -95,7 +95,7 @@
 	       <h3 class=" text-info">상품등록</h3>
     </div>
    	
-   	<form class="form-horizontal">
+	   <form class="form-horizontal" method="POST" action="/product/addProduct" enctype="multipart/form-data">
    		
    		 <div class="form-group">
 		    <label for="prodName" class="col-sm-offset-1 col-sm-3 control-label">상품명</label>
@@ -129,16 +129,13 @@
 		    <div class="col-sm-4">
 		        <input type="text" class="form-control" id="price" name="price"
 		               value="${price}" >
-	   		</div>
-	   	 </div>
-			   
-		   <div class="form-group">
-	    	<label for="fileName" class="col-sm-offset-1 col-sm-3 control-label">상품이미지</label>
-		    <div class="col-sm-4">
-		        <input type="text" class="form-control" id="fileName" name="fileName"
-		               value="${fileName}" >
+		   
+		    <div class="form-group">
+		        <label for="uploadFile" class="col-sm-3 control-label">상품이미지</label>
+		        <div class="col-sm-6">
+		            <input type="file" class="form-control" id="uploadFile" name="uploadFile" multiple>
+		        </div>
 		    </div>
-		   </div>
 		    
 	    <div class="form-group">
 		    <div class="col-sm-offset-4  col-sm-4 text-center">
