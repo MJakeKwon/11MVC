@@ -31,7 +31,7 @@ CREATE TABLE product (
 	prod_detail 				VARCHAR2(200),
 	manufacture_day		VARCHAR2(8),
 	price 							NUMBER(10),
-	image_file 					VARCHAR2(100),
+	image_file 					VARCHAR2(200),
 	reg_date 					DATE,
 	PRIMARY KEY(prod_no)
 );

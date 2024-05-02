@@ -2,6 +2,8 @@
 <%@ page language="java" contentType="text/html; charset=EUC-KR"
     pageEncoding="EUC-KR"%>
     <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+    <%@ taglib prefix="fn" uri="http://java.sun.com/jsp/jstl/functions" %>
+    
 	
 <html>
 <head>
@@ -17,7 +19,7 @@
 
 <body bgcolor="#ffffff" text="#000000">
 
-<form name="detailForm" method="post">
+<form name="detailForm" method="post" enctype="multipart/form-data">
 
 <table width="100%" height="37" border="0" cellpadding="0"	cellspacing="0">
 	<tr>
@@ -114,16 +116,20 @@
 			</tr>
 			
 			
-	<tr>
-			<td width="104" class="ct_write">
-         상품이미지 
-      </td>
-      <td bgcolor="D6D6D6" width="5"></td>
-      <td class="ct_write01"><img src="/images/uploadFiles/${product.fileName}"  width="300" height="300"/><br/></td>
-   </tr> 
-   
-		
-	</table>
+		 <tr>
+				<td width="104" class="ct_write">
+		         상품이미지 
+		      </td>
+		      <td bgcolor="D6D6D6" width="5"></td>
+		      <td class="ct_write01">
+		      <%-- <img src="/images/uploadFiles/${product.fileName}"  width="300" height="300"/><br/> (단일)--%>
+		      <c:forEach items="${fn:split(product.fileName, ',')}" var="image">
+				    <img src="/images/uploadFiles/${image}" width="300" height="300"/><br/>
+				</c:forEach>
+		      </td>
+		   </tr>
+				
+			</table>
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0"	style="margin-top: 10px;">
 	<tr>
