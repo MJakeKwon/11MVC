@@ -52,17 +52,23 @@
    <!--  <bean id="viewResolver"
 				class="org.springframework.web.servlet.view.InternalResourceViewResolver" /> -->
 	<!--사진 업로드 위해 추가  -->
-	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"> 
+	<!-- <bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver"> 
         <property name="defaultEncoding" value="EUC-KR"/>
         <property name="maxUploadSize"   value="10000000"/>
         <property name="maxInMemorySize" value="10000000"/>
         <property name="uploadTempDir"   value="uploadTempDir"/>
-	</bean> 
+	</bean>  
 
 	<bean id="uploadTempDir" class="org.springframework.core.io.FileSystemResource">
 	        <constructor-arg value="c:/temp/"/>
-	</bean>
+	</bean>-->
 	
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+        <!-- 최대 파일 크기 설정 -->
+        <property name="maxUploadSize" value="104857600" /> <!-- 100MB -->
+        <!-- 최대 요청 크기 설정 -->
+        <property name="maxUploadSizePerFile" value="20971520" /> <!-- 20MB -->
+    </bean>
 	<!--	
 		■ / 형식의 Mapping 은 모든(정적,동적 자원) 요청시 처리책임
 		■ 정적자원 요청시 DispatcherServlet 에게 처리방법지정

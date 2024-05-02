@@ -11,6 +11,7 @@
 <script src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" ></script>
 
+
 <title>상품정보 조회</title>
 </head>
 
@@ -111,27 +112,17 @@
 			<tr>
 				<td height="1" colspan="3" bgcolor="D6D6D6"></td>
 			</tr>
-	
+			
+			
 	<tr>
-		<td height="1" colspan="3" bgcolor="D6D6D6"></td>
-	</tr>
-	
-	
-		<tr>
 			<td width="104" class="ct_write">
-				상품이미지 <img 	src="/images/ct_icon_red.gif" width="3" height="3" align="absmiddle"/>
-			</td>
-			<td bgcolor="D6D6D6" width="1"></td>
-			<td class="ct_write01">
-				<img src = "C:/Users/Gram17/git/11MVC/11.Model2MVCShop/src/main/webapp/images/uploadFiles/../../images/empty.GIF"/>
-			</td>
-		</tr>
-		<tr>
-			<td height="1" colspan="3" bgcolor="D6D6D6"></td>
-		</tr>
-		<tr>
-			<td height="1" colspan="3" bgcolor="D6D6D6"></td>
-		</tr>
+         상품이미지 
+      </td>
+      <td bgcolor="D6D6D6" width="5"></td>
+      <td class="ct_write01"><img src="/images/uploadFiles/${product.fileName}"  width="300" height="300"/><br/></td>
+   </tr> 
+   
+		
 	</table>
 
 <table width="100%" border="0" cellspacing="0" cellpadding="0"	style="margin-top: 10px;">

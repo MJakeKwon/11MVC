@@ -1,6 +1,7 @@
 package com.model2.mvc.web.product;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -47,8 +48,8 @@ public class ProductController{
 		//@Value("#{commonProperties['pageSize'] ?: 2}")
 		int pageSize;
 		
-		@Value("#{commonProperties['path']}")
-		String path;
+//		@Value("#{commonProperties['path']}")
+//		String path;
 
 	@RequestMapping(value="addProduct", method=RequestMethod.GET)
 	public String addProduct() throws Exception {
@@ -58,24 +59,62 @@ public class ProductController{
 		return "forward:/product/addProductView.jsp";
 	}	
 	@RequestMapping(value="addProduct", method=RequestMethod.POST)
-	public ModelAndView addProduct(@ModelAttribute("product") Product product, MultipartHttpServletRequest request) throws Exception {
-		System.out.println("/product/addProduct. POST");
-		
-//		String uploadFolder ="C:\\Users\\Gram17\\git\\11MVC\\11.Model2MVCShop\\src\\main\\webapp\\images\\uploadFiles\\";
-		List<MultipartFile> fileList = request.getFiles("uploadFile");
-		String fileName = "";
-		
-		for(MultipartFile mf : fileList) {
-			fileName += mf.getOriginalFilename()+"/";
-			String saveFile = path+mf.getOriginalFilename();
-			mf.transferTo(new File(saveFile));
-		}
-		
-		product.setFileName(fileName);
-		productService.addProduct(product);
-		
-		return new ModelAndView("forward:/product/addProduct.jsp","product",product);
-	}
+	   
+	   public String addProduct(
+	                  @ModelAttribute("product") Product product, Model model,
+	                  MultipartHttpServletRequest request) throws Exception {
+
+	       System.out.println("/product/addProduct : POST");
+	       
+	       List<MultipartFile> fileList = request.getFiles("uploadFile");
+	       
+	       String uploadFolder = "C:\\workspace\\.metadata\\.plugins\\org.eclipse.wst.server.core\\tmp0\\wtpwebapps\\11.Model2MVCShop\\images\\uploadFiles\\";
+	       List<String> fileNames = new ArrayList<>();
+	       
+	       for(MultipartFile multipartFile : fileList) {
+	                     
+	          
+	          String orgFileName = multipartFile.getOriginalFilename();
+	          long filesize = multipartFile.getSize();
+	          
+	          fileNames.add(orgFileName);
+	          
+	          String saveFile = uploadFolder + orgFileName;
+	         System.out.println("--------------------");
+	         System.out.println("Upload File Name" + multipartFile.getOriginalFilename());
+	         System.out.println("Upload File Size" + multipartFile.getSize());
+	         
+	         
+	         try {
+	            multipartFile.transferTo(new File(saveFile));
+	         }catch(Exception e) {
+	            e.printStackTrace();
+
+	         }
+	         StringBuilder sb = new StringBuilder();
+	         for(String name : fileNames) {
+	            sb.append(name).append(",");
+	         }
+	         
+	         if(sb.length()>0) {
+	            sb.deleteCharAt(sb.length()-1);
+	         }
+	         
+	         String fileNameCSV = sb.toString();
+	         
+	                  
+	       // Business Logic
+	      product.setProdName(request.getParameter("prodName"));
+	      product.setProdDetail(request.getParameter("prodDetail"));
+	      product.setPrice(Integer.parseInt(request.getParameter("price")));
+	       product.setManuDate(product.getManuDate().replace("-", ""));
+	       product.setFileName(fileNameCSV);
+	       
+	       productService.addProduct(product);
+	       model.addAttribute("product", product);
+	       }
+	       return "forward:/product/addProduct.jsp";
+	   }
 	
 	@RequestMapping( value="getProduct", method=RequestMethod.GET )
 	public ModelAndView getProduct( @RequestParam("prodNo") int prodNo , Model model, 
