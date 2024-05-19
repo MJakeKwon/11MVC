@@ -52,44 +52,22 @@
 	  					FROM		(	SELECT p.*, t.TRAN_STATUS_CODE tran_code, t.tran_no
 									        FROM product p
 									        LEFT JOIN transaction t ON p.prod_no = t.prod_no
-			<if test="searchCondition != null">
-				<where>
-					<if test="searchCondition == 0 and searchKeyword !='' ">
-		 				p.prod_no = #{searchKeyword}
-					</if>
-					<if test="searchCondition == 1 and searchKeyword !='' ">
-		 				p.prod_name = #{searchKeyword}
-					</if>
-					<if test="searchCondition == 2 and searchKeyword !='' ">
-		 				p.price = #{searchKeyword}
-					</if>
-				</where>
-			</if>
+	        <where>
+				<if test="searchCondition != null">
+	                <choose>
+	                    <when test="searchCondition == 1 and searchKeyword !=''">
+	                        p.prod_name LIKE '%' || #{searchKeyword} || '%'
+	                    </when>
+	                    <when test="searchCondition == 2 and searchKeyword !=''">
+	                         p.price = #{searchKeyword}
+	                    </when>
+	                </choose>
+            	</if>
+             </where>
 					ORDER BY p.prod_no ) inner_table
 					WHERE ROWNUM &lt;= #{endRowNum} )
 					WHERE row_seq BETWEEN #{startRowNum} AND #{endRowNum} 
 	 </select>
-	 <!-- <select id="getProductList" parameterType="search" resultMap="productSelectMap" >
-		        SELECT p.*, t.TRAN_STATUS_CODE tran_code, t.tran_no
-		        FROM product p
-		        LEFT JOIN transaction t ON p.prod_no = t.prod_no
-	        <where>
-	            <if test="searchCondition != null and searchKeyword != ''">
-	                <choose>
-	                    <when test="searchCondition == '0'">
-	                        AND p.prod_no = #{searchKeyword}
-	                    </when>
-	                    <when test="searchCondition == '1'">
-	                        AND p.prod_name LIKE '%' || #{searchKeyword} || '%'
-	                    </when>
-	                    <when test="searchCondition == '2'">
-	                        AND p.price = #{searchKeyword}
-	                    </when>
-	                </choose>
-	            </if>
-	        </where>
-	        ORDER BY p.prod_no
-	    </select> -->
 	 
  	<select  id="getTotalCount"  parameterType="search"	 resultType="int">
 	  	SELECT COUNT(*)

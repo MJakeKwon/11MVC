@@ -124,11 +124,13 @@
 		    </div>
 		</div>
 		
-	  	<div class="form-group">
+		<div class="form-group">
 	    	<label for="price" class="col-sm-offset-1 col-sm-3 control-label">가격</label>
-		    <div class="col-sm-4">
-		        <input type="text" class="form-control" id="price" name="price"
+		    	<div class="col-sm-4">
+	        		<input type="text" class="form-control" id="price" name="price"
 		               value="${price}" >
+	            </div>
+	    </div>   
 		   
 		    <div class="form-group">
 		        <label for="uploadFile" class="col-sm-3 control-label">상품이미지</label>
